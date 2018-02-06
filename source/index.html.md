@@ -3,135 +3,112 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
-  - python
-  - javascript
+  - php
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
 
 includes:
   - errors
 
-search: true
+search: false
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Printerous API! You can use our API to access SweetEscape API endpoints, which you can use to create orders and retrieve order's status.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have API examples to demonstrate the input and output of the service! You can view code examples in the dark area to the right.
 
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Please replace constant `APIROOT` to these endpoints according to your environment
+
+`Development: http://apitest.printerous.com/`
+
+`Production : https://api.printerous.com/ `
+
 
 # Authentication
 
-> To authorize, use this code:
+To access other SweetEscape services, you will need to attach a token that identify you as an Authorized User to create shipping address, orders and get order's status related to SweetEscape.
 
-```ruby
-require 'kittn'
+Printerous will give a Releaser Account to SweetEscape, and you need to request the token by signing in using that Releaser Account credentials.
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
+## Get Token
 
-```python
-import kittn
 
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
+> Output Example:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+"resp_code": 200,
+"resp_status": "success",
+"resp_message": "success",
+"resp_data":{
+"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE2NjYwLCJpc3MiOiJodHRwOi8vYXBpLnByaW50ZXJvdXMubG9jYWwvc3dlZXRlc2NhcGUvYXV0aC9sb2dpbiIsImlhdCI6MTUxNzgyNzIxMiwiZXhwIjoxNTE4MTg3MjEyLCJuYmYiOjE1MTc4MjcyMTIsImp0aSI6ImZGaDFOclNFNVBhbzFtc1oifQ.-FCy9hJ21sAhN0xgambjfQR7zCy0B6V_ORkpdmDTI7M"
+}
 ```
 
-This endpoint retrieves all kittens.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST APIROOT/sweetescape/auth/login`
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Parameter | Mandatory | Default | Description
+--------- | --------- | ------- | -----------
+email | yes | false | Account Email
+password | yes | false | Account Password
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+
+
+# Shipping Address
+
+## Create Shipping Address
+
+> Output Example:
+
+```json
+{
+  "resp_code": 200,
+  "resp_status": "success",
+  "resp_message": "success",
+  "resp_data": {
+      "address": {
+          "id:59,
+          "address_name": "Office",
+          "zip_code": "12240",
+          "contact_name": "Johanes Irsan",
+          "email": "juliana@printerous.com",
+          "phone": "08561471118",
+          "country": "Indonesia",
+          "province": "DKI Jakarta",
+          "city": "Jakarta Selatan",
+          "district": "Kebayoran Lama"
+      }
+  }
+}
+```
+
+This endpoint create shipping address on Printerous database and returns associated shipping_address_id.
+
+### HTTP Request
+
+`POST APIROOT/sweetescape/shipping_address`
+
+### Query Parameters
+
+Parameter | Mandatory | Type | Description
+--------- | --------- | ------- | -----------
+token | Yes | Text | Token authentication
+address_name | Yes | Varchar(20) | Min length = 3. e.g. Home, Office, dll
+contact_name | Yes | Varchar(30) | Min length = 3. e.g. Kevin Osmond, Erick
+email | Yes | Varchar(128) | Please send a valid email address
+phone | Yes | Varchar(30) | Please send a valid phone number format (we accept " " and "+")
+address | Yes | Text | Min length = 10 chars
+district_id | Yes | int | id from printerous' ms_districts table
+zip_code | Yes | Varchar(10) | Zip Code for shipping address
+
 
 ## Get a Specific Kitten
 
