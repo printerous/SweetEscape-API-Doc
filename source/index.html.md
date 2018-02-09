@@ -7,8 +7,6 @@ language_tabs: # must be one of https://git.io/vQNgJ
 toc_footers:
   - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
 
-includes:
-  - errors
 
 search: false
 ---
@@ -33,6 +31,9 @@ To access other SweetEscape services, you will need to attach a token that ident
 Printerous will give a Releaser Account to SweetEscape, and you need to request the token by signing in using that Releaser Account credentials.
 
 ## Get Token
+
+This endpoint returns Authentication Token for the other services. 
+Token expiry time is 7 days. Please request new token before old token expired.
 
 > Request Example:
 
@@ -172,11 +173,10 @@ This endpoint create SweetEscape's Order on Printerous Platform and returns orde
           "id:11204,
           "order_no": "PA18205I5NG",
           "status": "Processing",
-          "total_price": "Vendera Hadi",
-          "shipping_fee": "vendera@printerous.com",
-          "final_price": "08561471118",
-          "estimated_delivery_date" : "2018-02-14"
-          
+          "total_price": "100000",
+          "shipping_fee": "9000",
+          "final_price": "109000",
+          "estimated_delivery_date" : "2018-02-14"        
   }
 }
 ```
@@ -190,13 +190,60 @@ This endpoint create SweetEscape's Order on Printerous Platform and returns orde
 Parameter | Type | Description
 --------- | ---- | -----------
 token | Text | Token authentication
-shipping_address_id | Integer | 
+shipping_address_id | Integer | Shipping address id di sistem Printerous
+order_details | Array of Item Object | Item - item Pesanan
+
+### Item Object
+
+Property | Type | Description
+--------- | ---- | -----------
+sku_code | Text | Photo Prints: `sescape_photo_4RSP2701S`, Canvas: `sescape_canvas_2030SPR1S`
+qty | Integer | Quantity item (pcs)
+photos | Array of String | Array url images yang akan dicetak
 
 
 ## Get All Order Statuses
 
+> Request Example:
 
-This endpoint returns all sweetescape's orders with their statuses. Result is sorted by created at DESC.
+```
+queryParams
+
+?limit=20&page=2
+
+```
+
+> Response Example:
+
+```json
+{
+  "resp_code": 200,
+  "resp_status": "success",
+  "resp_message": "success",
+  "resp_data": [
+    {     
+      "id:11204,
+      "order_no": "PA18205I5NG",
+      "status": "Processing",
+      "estimated_delivery_date" : "2018-02-14"        
+    },
+    {     
+      "id:11205,
+      "order_no": "PA18206IA9V",
+      "status": "Processing",
+      "estimated_delivery_date" : "2018-02-15"        
+    },
+    {     
+      "id:11206,
+      "order_no": "PA1820927SJ",
+      "status": "Processing",
+      "estimated_delivery_date" : "2018-02-16"        
+    },
+  ]
+}
+```
+
+This endpoint returns all sweetescape's orders with their statuses. Result is sorted by creation date DESC.
 
 ### HTTP Request
 
@@ -204,12 +251,56 @@ This endpoint returns all sweetescape's orders with their statuses. Result is so
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
+All parameters are not mandatory.
+
+Parameter | Default | Description
+--------- | ------- | -----------
+token | Text | Token authentication
+limit | 25 | jumlah order header yang di return dalam 1 service call
+page | 1 | paging number 
 
 
 
 ## Get Specific Order Status(es)
+
+> Request Example:
+
+```
+queryParams
+
+?order_header_id[]=12493&order_header_id[]=12494&order_header_id[]=12495
+
+```
+
+> Response Example:
+
+```json
+{
+  "resp_code": 200,
+  "resp_status": "success",
+  "resp_message": "success",
+  "resp_data": [
+    {     
+      "id:12493,
+      "order_no": "PA18205I5NG",
+      "status": "Processing",
+      "estimated_delivery_date" : "2018-02-14"        
+    },
+    {     
+      "id:12494,
+      "order_no": "PA18206IA9V",
+      "status": "Processing",
+      "estimated_delivery_date" : "2018-02-15"        
+    },
+    {     
+      "id:12495,
+      "order_no": "PA1820927SJ",
+      "status": "Processing",
+      "estimated_delivery_date" : "2018-02-16"        
+    },
+  ]
+}
+```
 
 
 This endpoint returns order(s) with their status respectively. 
@@ -221,7 +312,8 @@ Orders specified by order_header_ids on the request parameter.
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-
+Parameter | Default | Description
+--------- | ------- | -----------
+token | Text | Token authentication
+order_header_id | Array of Integer | List of order_header_id pesanan yang mau dicari statusnya
 
