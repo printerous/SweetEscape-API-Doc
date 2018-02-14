@@ -247,9 +247,6 @@
                   </li>
               </ul>
           </li>
-          <li>
-            <a href="#errors" class="toc-h1 toc-link" data-title="errors">Errors</a>
-          </li>
       </div>
         <ul class="toc-footer">
             <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
@@ -273,14 +270,18 @@
 
 <p>Printerous will give a Releaser Account to SweetEscape, and you need to request the token by signing in using that Releaser Account credentials.</p>
 <h2 id='get-token'>Get Token</h2>
+<p>This endpoint returns Authentication Token for the other services. 
+Token expiry time is 7 days. Please request new token before old token expired.</p>
+
 <blockquote>
 <p>Request Example:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"email"</span><span class="p">:</span><span class="s2">"hello@sweetescapetest.com"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"password"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"helloworld"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<pre class="highlight plaintext"><code>Content-Type: application/json
+{
+  "email":"hello@sweetescapetest.com",
+  "password" : "helloworld"
+}
+</code></pre>
 <blockquote>
 <p>Response Example:</p>
 </blockquote>
@@ -433,20 +434,19 @@
 <p>Response Example:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"resp_code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"resp_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"resp_message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"resp_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">     
-          </span><span class="s2">"id:11204,
-          "</span><span class="err">order_no</span><span class="s2">": "</span><span class="err">PA</span><span class="mi">18205</span><span class="err">I</span><span class="mi">5</span><span class="err">NG</span><span class="s2">",
-          "</span><span class="err">status</span><span class="s2">": "</span><span class="err">Processing</span><span class="s2">",
-          "</span><span class="err">total_price</span><span class="s2">": "</span><span class="err">Vendera</span><span class="w"> </span><span class="err">Hadi</span><span class="s2">",
-          "</span><span class="err">shipping_fee</span><span class="s2">": "</span><span class="err">vendera@printerous.com</span><span class="s2">",
-          "</span><span class="err">final_price</span><span class="s2">": "</span><span class="mi">08561471118</span><span class="s2">",
-          "</span><span class="err">estimated_delivery_date</span><span class="s2">" : "</span><span class="mi">2018-02-14</span><span class="s2">"
-
-  }
-}
+    </span><span class="s2">"resp_code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"resp_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"resp_message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"resp_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5657</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"order_no"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PA182142975"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Processing"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"total_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">121000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"shipping_fee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"final_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">121000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"estimated_delivery_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-03-01 16:00:00"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='http-request-3'>HTTP Request</h3>
 <p><code>POST APIROOT/sweetescape/orders</code></p>
 <h3 id='url-parameters'>URL Parameters</h3>
@@ -465,22 +465,156 @@
 <tr>
 <td>shipping_address_id</td>
 <td>Integer</td>
-<td></td>
+<td>Shipping address id di sistem Printerous</td>
+</tr>
+<tr>
+<td>order_details</td>
+<td>Array of Item Object</td>
+<td>Item - item Pesanan</td>
 </tr>
 </tbody></table>
-<h2 id='get-all-order-statuses'>Get All Order Statuses</h2>
-<p>This endpoint returns all sweetescape&#39;s orders with their statuses. Result is sorted by created at DESC.</p>
-<h3 id='http-request-4'>HTTP Request</h3>
-<p><code>POST APIROOT/sweetescape/orders/statuses</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
+<h3 id='item-object'>Item Object</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Property</th>
+<th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
+<tr>
+<td>sku_code</td>
+<td>Text</td>
+<td>Photo Prints: <code>sescape_photo_4RSP2701S</code>, Canvas: <code>sescape_canvas_2030SPR1S</code></td>
+</tr>
+<tr>
+<td>qty</td>
+<td>Integer</td>
+<td>Quantity item (pcs)</td>
+</tr>
+<tr>
+<td>photos</td>
+<td>Array of String</td>
+<td>Array url images yang akan dicetak</td>
+</tr>
+</tbody></table>
+<h2 id='get-all-order-statuses'>Get All Order Statuses</h2>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<pre class="highlight plaintext"><code>queryParams
+
+?limit=3&amp;page=1
+
+</code></pre>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"resp_code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"resp_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"resp_message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"resp_data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"order_header_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5657"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"order_detail_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7528"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8 pcs Photo Print 4R SweetEscape SweetEscape-Wawan Kurniawan"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Processing"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"estimated_delivery_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-02-23 16:00:00"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"order_header_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5657"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"order_detail_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7527"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 pcs Canvas Art SweetEscape SweetEscape-Wawan Kurniawan"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Processing"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"estimated_delivery_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-03-01 16:00:00"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"order_header_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5652"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"order_detail_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7519"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8 pcs Photo Print 4R SweetEscape SweetEscape-Wawan Kurniawan"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Processing"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"estimated_delivery_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-02-22 16:29:33"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint returns all sweetescape&#39;s orders with their statuses. Result is sorted by creation date DESC.</p>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>POST APIROOT/sweetescape/orders/statuses</code></p>
+<h3 id='url-parameters-2'>URL Parameters</h3>
+<p>All parameters are not mandatory.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token</td>
+<td>Text</td>
+<td>Token authentication</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>25</td>
+<td>jumlah order header yang di return dalam 1 service call</td>
+</tr>
+<tr>
+<td>page</td>
+<td>1</td>
+<td>paging number</td>
+</tr>
 </tbody></table>
 <h2 id='get-specific-order-status-es'>Get Specific Order Status(es)</h2>
+<blockquote>
+<p>Request Example:</p>
+</blockquote>
+<pre class="highlight plaintext"><code>queryParams
+
+?order_header_id[]=12493&amp;order_header_id[]=5606&amp;order_header_id[]=5652
+
+</code></pre>
+<blockquote>
+<p>Response Example:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"resp_code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"resp_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"resp_message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"resp_data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"order_header_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5606"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"order_detail_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7412"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 pcs Photo Print 4R SweetEscape SweetEscape-Johanes Irsan"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Processing"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"estimated_delivery_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-02-20 14:13:20"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"order_header_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5652"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"order_detail_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7517"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 pcs Canvas Art SweetEscape SweetEscape-Wawan Kurniawan"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Processing"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"estimated_delivery_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-02-28 16:29:33"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"order_header_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5652"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"order_detail_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7518"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2 pcs Canvas Art SweetEscape SweetEscape-Wawan Kurniawan"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Processing"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"estimated_delivery_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-02-28 16:29:33"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"order_header_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5652"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"order_detail_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7519"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8 pcs Photo Print 4R SweetEscape SweetEscape-Wawan Kurniawan"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Processing"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"estimated_delivery_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-02-22 16:29:33"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>This endpoint returns order(s) with their status respectively. 
 Orders specified by order_header_ids on the request parameter.</p>
 <h3 id='http-request-5'>HTTP Request</h3>
@@ -489,66 +623,19 @@ Orders specified by order_header_ids on the request parameter.</p>
 <table><thead>
 <tr>
 <th>Parameter</th>
+<th>Default</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
-</tbody></table>
-<h1 id='errors'>Errors</h1>
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
-
-<p>The Kittn API uses the following error codes:</p>
-
-<table><thead>
 <tr>
-<th>Error Code</th>
-<th>Meaning</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
+<td>token</td>
+<td>Text</td>
+<td>Token authentication</td>
 </tr>
 <tr>
-<td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+<td>order_header_id</td>
+<td>Array of Integer</td>
+<td>List of order_header_id pesanan yang mau dicari statusnya</td>
 </tr>
 </tbody></table>
 
