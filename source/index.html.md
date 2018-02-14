@@ -37,7 +37,8 @@ Token expiry time is 7 days. Please request new token before old token expired.
 
 > Request Example:
 
-```json
+```application/json
+Content-Type: application/json
 {
   "email":"hello@sweetescapetest.com",
   "password" : "helloworld"
@@ -166,18 +167,18 @@ This endpoint create SweetEscape's Order on Printerous Platform and returns orde
 
 ```json
 {
-  "resp_code": 200,
-  "resp_status": "success",
-  "resp_message": "success",
-  "resp_data": {     
-          "id:11204,
-          "order_no": "PA18205I5NG",
-          "status": "Processing",
-          "total_price": "100000",
-          "shipping_fee": "9000",
-          "final_price": "109000",
-          "estimated_delivery_date" : "2018-02-14"        
-  }
+    "resp_code": 200,
+    "resp_status": "success",
+    "resp_message": "success",
+    "resp_data": {
+        "id": 5657,
+        "order_no": "PA182142975",
+        "status": "Processing",
+        "total_price": 121000,
+        "shipping_fee": 0,
+        "final_price": 121000,
+        "estimated_delivery_date": "2018-03-01 16:00:00"
+    }
 }
 ```
 ### HTTP Request
@@ -209,7 +210,7 @@ photos | Array of String | Array url images yang akan dicetak
 ```
 queryParams
 
-?limit=20&page=2
+?limit=3&page=1
 
 ```
 
@@ -217,29 +218,32 @@ queryParams
 
 ```json
 {
-  "resp_code": 200,
-  "resp_status": "success",
-  "resp_message": "success",
-  "resp_data": [
-    {     
-      "id:11204,
-      "order_no": "PA18205I5NG",
-      "status": "Processing",
-      "estimated_delivery_date" : "2018-02-14"        
-    },
-    {     
-      "id:11205,
-      "order_no": "PA18206IA9V",
-      "status": "Processing",
-      "estimated_delivery_date" : "2018-02-15"        
-    },
-    {     
-      "id:11206,
-      "order_no": "PA1820927SJ",
-      "status": "Processing",
-      "estimated_delivery_date" : "2018-02-16"        
-    },
-  ]
+    "resp_code": 200,
+    "resp_status": "success",
+    "resp_message": "success",
+    "resp_data": [
+        {
+            "order_header_id": "5657",
+            "order_detail_id": "7528",
+            "title": "8 pcs Photo Print 4R SweetEscape SweetEscape-Wawan Kurniawan",
+            "status": "Processing",
+            "estimated_delivery_date": "2018-02-23 16:00:00"
+        },
+        {
+            "order_header_id": "5657",
+            "order_detail_id": "7527",
+            "title": "1 pcs Canvas Art SweetEscape SweetEscape-Wawan Kurniawan",
+            "status": "Processing",
+            "estimated_delivery_date": "2018-03-01 16:00:00"
+        },
+        {
+            "order_header_id": "5652",
+            "order_detail_id": "7519",
+            "title": "8 pcs Photo Print 4R SweetEscape SweetEscape-Wawan Kurniawan",
+            "status": "Processing",
+            "estimated_delivery_date": "2018-02-22 16:29:33"
+        }
+    ]
 }
 ```
 
@@ -268,7 +272,7 @@ page | 1 | paging number
 ```
 queryParams
 
-?order_header_id[]=12493&order_header_id[]=12494&order_header_id[]=12495
+?order_header_id[]=12493&order_header_id[]=5606&order_header_id[]=5652
 
 ```
 
@@ -276,29 +280,39 @@ queryParams
 
 ```json
 {
-  "resp_code": 200,
-  "resp_status": "success",
-  "resp_message": "success",
-  "resp_data": [
-    {     
-      "id:12493,
-      "order_no": "PA18205I5NG",
-      "status": "Processing",
-      "estimated_delivery_date" : "2018-02-14"        
-    },
-    {     
-      "id:12494,
-      "order_no": "PA18206IA9V",
-      "status": "Processing",
-      "estimated_delivery_date" : "2018-02-15"        
-    },
-    {     
-      "id:12495,
-      "order_no": "PA1820927SJ",
-      "status": "Processing",
-      "estimated_delivery_date" : "2018-02-16"        
-    },
-  ]
+    "resp_code": 200,
+    "resp_status": "success",
+    "resp_message": "success",
+    "resp_data": [
+        {
+            "order_header_id": "5606",
+            "order_detail_id": "7412",
+            "title": "1 pcs Photo Print 4R SweetEscape SweetEscape-Johanes Irsan",
+            "status": "Processing",
+            "estimated_delivery_date": "2018-02-20 14:13:20"
+        },
+        {
+            "order_header_id": "5652",
+            "order_detail_id": "7517",
+            "title": "1 pcs Canvas Art SweetEscape SweetEscape-Wawan Kurniawan",
+            "status": "Processing",
+            "estimated_delivery_date": "2018-02-28 16:29:33"
+        },
+        {
+            "order_header_id": "5652",
+            "order_detail_id": "7518",
+            "title": "2 pcs Canvas Art SweetEscape SweetEscape-Wawan Kurniawan",
+            "status": "Processing",
+            "estimated_delivery_date": "2018-02-28 16:29:33"
+        },
+        {
+            "order_header_id": "5652",
+            "order_detail_id": "7519",
+            "title": "8 pcs Photo Print 4R SweetEscape SweetEscape-Wawan Kurniawan",
+            "status": "Processing",
+            "estimated_delivery_date": "2018-02-22 16:29:33"
+        }
+    ]
 }
 ```
 
